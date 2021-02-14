@@ -2,7 +2,9 @@ package com;
 
 import com.entity.Order;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.services.OrderLineService;
 import com.services.OrderService;
+import com.services.ProductService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,12 @@ public class OrderControllerTest {
 
     @MockBean
     private OrderService service;
+
+    @MockBean
+    private OrderLineService orderLineService;
+
+    @MockBean
+    private ProductService productService;
 
     @Test
     public void test() throws Exception {
@@ -80,6 +88,18 @@ public class OrderControllerTest {
 
         mockMvc.perform(
                 delete("/order/1")
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(mapper.writeValueAsString(order))
+                );
+
+        Mockito.when(productService.getProductById(1)).thenReturn(ProductRepositoryTest.createProduct());
+        //Mockito.when(orderLineService.addOrderLine()).thenReturn(ProductRepositoryTest.createProduct());
+
+        mockMvc.perform(
+                post("/order/?product_id=1&count=10")
+                        .content(mapper.writeValueAsString(order))
+                        .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(mapper.writeValueAsString(order))

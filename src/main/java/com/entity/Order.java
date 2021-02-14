@@ -79,8 +79,5 @@ public class Order {
         return id == order.id && Objects.equals(clientName, order.clientName) && Objects.equals(date, order.date) && Objects.equals(address, order.address) && Objects.equals(orderLines, order.orderLines);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, clientName, date, address, orderLines);
-    }
+
 }

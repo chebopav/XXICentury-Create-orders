@@ -67,8 +67,4 @@ public class OrderLine {
         return id == orderLine.id && count == orderLine.count && Objects.equals(order, orderLine.order) && Objects.equals(product, orderLine.product);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, order, product, count);
-    }
 }

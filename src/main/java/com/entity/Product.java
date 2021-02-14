@@ -62,8 +62,5 @@ public class Product {
         return id == product.id && Float.compare(product.price, price) == 0 && Objects.equals(name, product.name) && Objects.equals(lines, product.lines);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, price, lines);
-    }
+
 }

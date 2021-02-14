@@ -1,6 +1,8 @@
 package com.controllers;
 
 import com.entity.Order;
+import com.entity.OrderLine;
+import com.entity.Product;
 import com.services.OrderLineService;
 import com.services.OrderService;
 import com.services.ProductService;
@@ -27,6 +29,22 @@ public class OrderController {
     @PostMapping
     public Order addOrder(@RequestBody Order order) {
         service.addOrder(order);
+        return order;
+    }
+
+    @PostMapping("/")
+    public Order createOrder(@RequestBody Order order, @RequestParam long product_id, @RequestParam int count){
+        OrderLine orderLine = new OrderLine();
+        Product product = productService.getProductById(product_id);
+        orderLine.setOrder(order);
+        order.getOrderLines().add(orderLine);
+        orderLine.setProduct(product);
+        product.getLines().add(orderLine);
+        orderLine.setCount(count);
+
+        service.addOrder(order);
+        productService.updateProduct(product);
+        orderLineService.addOrderLine(orderLine);
         return order;
     }
 
